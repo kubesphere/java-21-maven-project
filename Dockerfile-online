@@ -11,7 +11,7 @@ FROM docker.io/eclipse-temurin:21-jre
 
 WORKDIR /home
 
-COPY --from=builder /build/target/*.jar /home/app.jar
+COPY --from=builder /build/target/java-21-maven-project-*.jar /home/app.jar
 
 RUN groupadd -g 65532 appgroup && \
     useradd -u 65532 -g appgroup -s /bin/false -m appuser
