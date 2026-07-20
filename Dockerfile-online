@@ -1,7 +1,18 @@
-FROM docker.io/amd64/openjdk:21
+FROM docker.io/maven:3.9-eclipse-temurin-21-alpine AS builder
+
+WORKDIR /build
+
+COPY pom.xml ./
+COPY src ./src
+
+RUN mvn clean package -DskipTests
+
+FROM docker.io/eclipse-temurin:21-jre
 
 WORKDIR /home
 
-COPY target/*.jar /home
+COPY --from=builder /build/target/*.jar /home/app.jar
 
-ENTRYPOINT java -jar *.jar
+USER 65532:65532
+
+ENTRYPOINT ["java", "-jar", "/home/app.jar"]
