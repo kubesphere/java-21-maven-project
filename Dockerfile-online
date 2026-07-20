@@ -13,8 +13,8 @@ WORKDIR /home
 
 COPY --from=builder /build/target/*.jar /home/app.jar
 
-RUN addgroup -g 65532 -S appgroup && \
-    adduser -u 65532 -S appuser -G appgroup
+RUN groupadd -g 65532 appgroup && \
+    useradd -u 65532 -g appgroup -s /bin/false -m appuser
 
 USER 65532:65532
 
